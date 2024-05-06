@@ -6,19 +6,21 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', function () {
-    return view('user.login');
-});
-// Route::get('/register', function () {
-//     return view('user.register');
-// });
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users', [UserController::class, 'index'])->name('users.index')->middleware('auth');
 Route::get('/users/register', [UserController::class, 'create'])->name('users.create');
+Route::get('/users/login', [UserController::class, 'login'])->name('users.login');
+Route::post('/users/login/process', [UserController::class, 'process'])->name('users.process');
+Route::get('/users/logout', [UserController::class, 'logout'])->name('users.logout');
 Route::get('/users/edit/{id}', [UserController::class, 'show'])->name('users.edit');
 Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 Route::put('/users/{user}/update', [UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+
+// Route::middleware('guest')->group(function () {
+//     // Redirect to login route for /users
+//     Route::redirect('/users', '/users/login');
+// });
 
 Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles');
 Route::get('/admin/roles/edit/{id}', [RoleController::class, 'show'])->name('admin.roles.edit');

@@ -1,16 +1,15 @@
 @include('partials.header')
     <header class="max-w-lg mx-auto">
         <a href="#">
-            <h1 class="text-4xl font-bold text-white text-center">Login</h1>
+            <h1 class="text-4xl font-bold text-white text-center">Welcome to Task Management System!</h1>
         </a>
     </header>
     <main class="bg-white max-w-lg mx-auto p-8 my-10 rounded-lg shadow-2xl">
         <section>
-            <h3 class="font-bold text-2xl">Welcome to Task Management System</h3>
-            <p class="text-gray-600 pt-2">Sign Up to your account <a href="/register" class="text-purple-300 font-bold">here</a></p>
+            <h3 class="font-bold text-2xl">Login</h3>
         </section>
         <section class="mt-10">
-            <form action="/login/process" method="POST" class="flex flex-col">
+            <form action="/users/login/process" method="POST" class="flex flex-col">
                 @csrf
                 @error('email')
                     <p class="text-red-500 text-xs p-1">
