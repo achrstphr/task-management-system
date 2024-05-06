@@ -41,9 +41,34 @@
                 {{ $data->role->role_name }}
             </td>
         @endif
+        @if (isset($data->task_name))
+            <td class="py-4 px-6 border-collapse border-r border-slate-100">
+                {{ $data->task_name }}
+            </td>
+        @endif
+        @if (isset($data->difficulty_level))
+            <td class="py-4 px-6 border-collapse border-r border-slate-100">
+                {{ $data->difficulty_level }}
+            </td>
+        @endif
+        @if (isset($data->priority_level))
+            <td class="py-4 px-6 border-collapse border-r border-slate-100">
+                {{ $data->priority_level }}
+            </td>
+        @endif
+        @if (isset($data->user->name))
+            <td class="py-4 px-6 border-collapse border-r border-slate-100">
+                {{ $data->user->name }}
+            </td>
+        @endif
+        @if (isset($data->task_status))
+            <td class="py-4 px-6 border-collapse border-r border-slate-100">
+                {{ $data->task_status }}
+            </td>
+        @endif
         <td class="w-full py-4 px-6 flex flex-row text-center justify-center">
             {{-- <div class="w-auto flex justify-center"> --}}
-                <a href="/{{ $routeFirstPrefix }}{{ $routeSecondPrefix }}/{{ $data->id }}" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-1 mx-1 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
+                <a href="/{{ $routeFirstPrefix }}{{ $routeSecondPrefix }}/edit/{{ $data->id }}" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-1 mx-1 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
                 <form action="/{{ $routeFirstPrefix }}{{ $routeSecondPrefix }}/{{ $data->id }}/destroy" method="POST">
                     @csrf
                     @method('DELETE')
@@ -53,23 +78,26 @@
         </td>
     </tr>
     @endforeach
+    {{-- It will show minimum of 5 rows even no data --}}
     @for ($i = count($datas); $i < 5; $i++)
    
         <tr class="bg-gray-800 text-white border-b h-12 text-center">
             @if ($columnCount == 10)
+            {{-- minus 5 is to exclude 5 columns (createdAt, UpdatedAt, email_verified_at, password, remember_token) --}}
                 @for ($j = 0; $j < $columnCount - 5; $j++)
-                    @if ($j > ($columnCount - 4) / 2)
+                    @if ($j == ($columnCount - 5) - 1)
                         <td class="py-4 px-6">(Empty)</td>
                     @else
                         <td class="py-4 px-6 border-collapse border-r border-slate-100">(Empty)</td>
                     @endif
                 @endfor
             @else
+                {{-- minus 2 is to exclude 2 columns (createdAt, UpdatedAt) --}}
                 @for ($j = 0; $j < $columnCount - 2; $j++)
-                    @if ($j >= ($columnCount - 2) / 2)
-                        <td class="py-4 px-6">(Empty2)</td>
+                    @if ($j == ($columnCount - 2) - 1)
+                        <td class="py-4 px-6">(Empty)</td>
                     @else
-                        <td class="py-4 px-6 border-collapse border-r border-slate-100">(Empty1)</td>
+                        <td class="py-4 px-6 border-collapse border-r border-slate-100">(Empty)</td>
                     @endif
                 @endfor
             @endif

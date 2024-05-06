@@ -35,8 +35,20 @@ class UserController extends Controller
       
     }
 
+    public function show($id){
+        $users = User::findOrFail($id);
+        $departments = Department::all();
+        $roles = Role::all();
+        return view('user.edit', [
+            'user' => $users,
+            'departments' => $departments,
+            'roles' => $roles
+        ]);
+    }
+
     public function create()
     {
+        // dd('ok');
         // Retrieve roles, users, and departments from the database
         $roles = Role::all();
         $departments = Department::all();
@@ -44,7 +56,7 @@ class UserController extends Controller
         // Pass roles, users, and departments to the view
         return view('user.register', [
             'roles' => $roles,
-            'departments' => $departments,
+            'departments' => $departments
         ]);
     }
 
@@ -53,7 +65,7 @@ class UserController extends Controller
         $validated = $request->validate([
             "name" => ['required', 'min:4'],
             "email" => ['required', 'email', Rule::unique('users', 'email')],
-            "password" => ['required', 'min:6'],
+            "password" => ['required', 'confirmed', 'min:6'],
             "department_name" => ['required', 'string', 'max:255'], // Validate department_name field
             "role_name" => ['required', 'string', 'max:255'],
         ]);
@@ -68,7 +80,36 @@ class UserController extends Controller
             'role_id' => $validated['role_name'],
         ]);
         
-        return redirect('/users/register')->with('message', 'User created successfully!');
+        return redirect('/users')->with('success', 'User created successfully!');
+    }
+
+    public function update(Request $request, User $user)
+    {
+        // dd($request->all());
+        $validated = $request->validate([
+            "name" => ['required', 'min:4'],
+            "email" => ['required', 'email'],
+            "password_confirmation" => ['required','min:6'],
+            "department_name" => ['required', 'exists:departments,id'], // Validate department_name field
+            "role_name" => ['required', 'exists:roles,id'],
+        ]);
+        
+        if (!Hash::check($request->password_confirmation, $user->password)) {
+            // Current password does not match
+            return back()->with('error','The current password is incorrect.');
+        }
+
+        $user->name = $validated['name'];
+        $user->department_id = $validated['department_name'];
+        $user->role_id = $validated['role_name'];
+        $user->update($validated);
+
+        return redirect('/users')->with('success', 'User updated successfully!');
+    }
+
+    public function destroy(User $user){
+        $user->delete();
+        return redirect()->route('users.index')->with('warning', 'User name successfully deleted.');
     }
 
     // public function login()

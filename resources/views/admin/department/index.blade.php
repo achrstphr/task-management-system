@@ -2,7 +2,7 @@
 @include('partials.header')
 
 <section class="mt-10">
-    <div class="w-2/6 max-h-80 mx-auto overflow-y-auto">
+    <div class="md:w-[30rem] w-fit max-h-80 mx-auto overflow-y-auto">
         <table class="w-full text-sm text-gray-500 ">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
             <tr class="text-center">

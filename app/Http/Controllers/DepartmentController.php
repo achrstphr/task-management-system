@@ -28,20 +28,33 @@ class DepartmentController extends Controller
             'departments' => $departments, 
             'columnCount' => $columnCount,
             'firstPrefix' => 'admin',
-            'secondPrefix' => '/department'
+            'secondPrefix' => '/departments'
         ]);
     }
 
     public function store(Request $request){
-        // Validate the request data
-        $validate = $request->validate([
-            'department_name' => 'required|min:4', 
-        ]);
+        
+        try {
+            // Validate the request data
+            $validate = $request->validate([
+                'department_name' => 'required|min:4', 
+            ]);
 
-        Department::create($validate);
+            Department::create($validate);
 
-        // Redirect or return a response
-        return redirect()->route('admin.departments')->with('message', 'Department created successfully');
+            // Redirect or return a response
+            return redirect()->route('admin.departments')->with('success', 'Department created successfully');
+        }catch (QueryException $e) {
+            // Check if the error is due to a duplicate entry violation
+            if ($e->errorInfo[1] == 1062 && strpos($e->getMessage(), 'departments_department_name_unique') !== false) {
+                // Return an error response indicating duplicate entry
+                return back()->with('alert', 'Department name already exists');
+            } else {
+                // For other types of errors, handle them accordingly
+                // Log the error, return a generic error message, etc.
+                return redirect()->route('admin.departments')->with('error', 'An error occurred while adding the department');
+            }
+        }
     }
 
     public function update(Request $request, Department $department)
@@ -54,22 +67,22 @@ class DepartmentController extends Controller
 
             $department->update($validated);
     
-            return redirect()->route('admin.departments')->with('message', 'Data was successfully updated!');
+            return redirect()->route('admin.departments')->with('success', 'Data was successfully updated!');
         }catch (QueryException $e) {
             // Check if the error is due to a duplicate entry violation
             if ($e->errorInfo[1] == 1062 && strpos($e->getMessage(), 'departments_department_name_unique') !== false) {
                 // Return an error response indicating duplicate entry
-                return redirect()->route('admin.departments')->with('message', 'Department name already exists');
+                return back()>with('alert', 'Department name already exists');
             } else {
                 // For other types of errors, handle them accordingly
                 // Log the error, return a generic error message, etc.
-                return redirect()->route('admin.departments')->with('message', 'An error occurred while updating the role');
+                return redirect()->route('admin.departments')->with('error', 'An error occurred while updating the department');
             }
         }
     }
 
     public function destroy(Department $department){
         $department->delete();
-        return redirect()->route('admin.departments')->with('message', 'Department name successfully deleted.');
+        return redirect()->route('admin.departments')->with('warning', 'Department name successfully deleted.');
     }
 }

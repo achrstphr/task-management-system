@@ -30,27 +30,40 @@ class RoleController extends Controller
             'roles' => $roles, 
             'columnCount' => $columnCount,
             'firstPrefix' => 'admin',
-            'secondPrefix' => '/role'
+            'secondPrefix' => '/roles'
         ]);
     }
 
     public function store(Request $request){
-        // Validate the request data
-        $validate = $request->validate([
-            'role_name' => 'required|min:4', 
-            'permission' => 'required|array', // Ensure 'permission' is an array
-        ]);
 
-        // Process the submitted permissions
-        $permissions = $request->input('permission');
-        
-        Role::create([
-            'role_name' => $validate['role_name'],
-            'permission' => json_encode($permissions),
-        ]);
+        try {
+            // Validate the request data
+            $validate = $request->validate([
+                'role_name' => 'required|min:4', 
+                'permission' => 'required|array', // Ensure 'permission' is an array
+            ]);
 
-        // Redirect or return a response
-        return back()->with('message', 'Role created successfully');
+            // Process the submitted permissions
+            $permissions = $request->input('permission');
+            
+            Role::create([
+                'role_name' => $validate['role_name'],
+                'permission' => json_encode($permissions),
+            ]);
+
+            // Redirect or return a response
+            return back()->with('success', 'Role created successfully');
+        }catch (QueryException $e) {
+            // Check if the error is due to a duplicate entry violation
+            if ($e->errorInfo[1] == 1062 && strpos($e->getMessage(), 'roles_role_name_unique') !== false) {
+                // Return an error response indicating duplicate entry
+                return back()->with('alert', 'Role name already exists');
+            } else {
+                // For other types of errors, handle them accordingly
+                // Log the error, return a generic error message, etc.
+                return redirect()->route('admin.roles')->with('error', 'An error occurred while adding the role');
+            }
+        }
     }
 
     public function update(Request $request, Role $role)
@@ -67,22 +80,22 @@ class RoleController extends Controller
                 'permission' => json_encode($permissions),
             ]);
     
-            return redirect()->route('admin.roles')->with('message', 'Data was successfully updated!');
+            return redirect()->route('admin.roles')->with('success', 'Data was successfully updated!');
         }catch (QueryException $e) {
             // Check if the error is due to a duplicate entry violation
             if ($e->errorInfo[1] == 1062 && strpos($e->getMessage(), 'roles_role_name_unique') !== false) {
                 // Return an error response indicating duplicate entry
-                return redirect()->route('admin.roles')->with('message', 'Role name already exists');
+                return back()->with('alert', 'Role name already exists');
             } else {
                 // For other types of errors, handle them accordingly
                 // Log the error, return a generic error message, etc.
-                return redirect()->route('admin.roles')->with('message', 'An error occurred while updating the role');
+                return redirect()->route('admin.roles')->with('error', 'An error occurred while updating the role');
             }
         }
     }
 
     public function destroy(Role $role){
         $role->delete();
-        return redirect()->route('admin.roles')->with('message', 'Role name successfully deleted.');
+        return redirect()->route('admin.roles')->with('warning', 'Role name successfully deleted.');
     }
 }
