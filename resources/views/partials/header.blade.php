@@ -33,5 +33,23 @@
             header.classList.add('sticky');
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var userDropdown = document.getElementById('userDropdown');
+        var userDropdownMenu = document.getElementById('userDropdownMenu');
+
+        userDropdown.addEventListener('click', function () {
+            userDropdownMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!userDropdown.contains(event.target)) {
+                userDropdownMenu.classList.add('hidden');
+            }
+        });
+    });
+
+  
   </script>
   <x-messages />

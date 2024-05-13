@@ -9,7 +9,7 @@
         <form action="/admin/roles/store" method="POST" class="flex flex-col">
             @csrf
             <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">New Role</label>
+                <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">New Role <span class="text-red-500">*</span></label>
                 <input type="text" id="role_name" name="role_name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3" value={{old('role_name')}}>
                 @error('role_name')
                     <p class="text-red-500 text-xs p-1 bg-white">
@@ -18,7 +18,7 @@
                 @enderror
             </div>
             <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3">Permissions</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2 ml-3">Permissions <span class="text-red-500">*</span></label>
                 <div class="flex px-4 py-3">
                     <div class="flex-1 mr-4">
                         <input type="checkbox" name="permission[]" value="View Dashboard" {{ in_array('View Dashboard', old('permission', [])) ? 'checked' : '' }} class="mr-2">

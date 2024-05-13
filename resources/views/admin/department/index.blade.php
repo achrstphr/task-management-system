@@ -19,7 +19,7 @@
                             :columnCount="$columnCount"
                             :routeFirstPrefix="$firstPrefix"
                             :routeSecondPrefix="$secondPrefix"
-                            
+                            :permission="$permissions"
                 />
             </tbody>
         </table>

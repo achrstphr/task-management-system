@@ -24,6 +24,11 @@
                     <label for="password" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Password</label>
                     <input type="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3">
                 </div>
+                @error('failed')
+                    <p class="text-red-500 text-xs p-1">
+                        {{$message}}
+                    </p>
+                @enderror
                 <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Sign In</button>
             </form>
         </section>

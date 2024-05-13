@@ -36,6 +36,11 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

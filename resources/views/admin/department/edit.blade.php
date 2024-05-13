@@ -6,11 +6,11 @@
         <h3 class="font-bold text-2xl text-center">UPDATE '{{$department->department_name}}' DEPARTMENT</h3>
     </section>
     <section class="mt-10">
-        <form action="/admin/department/{{$department->id}}/update" method="POST" class="flex flex-col">
+        <form action="/admin/departments/{{$department->id}}/update" method="POST" class="flex flex-col">
             @csrf
             @method('PUT')
             <div class="mb-6 pt-3 rounded bg-gray-200">
-                <label for="department_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Department</label>
+                <label for="department_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Department <span class="text-red-500">*</span></label>
                 <input type="text" id="department_name" name="department_name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3" value="{{$department->department_name}}">
                 @error('department_name')
                     <p class="text-red-500 text-xs p-1 bg-white">

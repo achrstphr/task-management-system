@@ -8,7 +8,7 @@
             <form action="/users/store" method="POST" class="flex flex-col">
                 @csrf
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Name</label>
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Name <span class="text-red-500">*</span></label>
                     <input type="text" name="name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-1" value={{old('name')}}>
                     @error('name')
                         <p class="text-red-500 text-xs p-1 bg-white">
@@ -17,7 +17,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Email</label>
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Email <span class="text-red-500">*</span></label>
                     <input type="email" name="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-1" value={{old('email')}}>
                     @error('email')
                         <p class="text-red-500 text-xs p-1 bg-white">
@@ -26,7 +26,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Password</label>
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Password <span class="text-red-500">*</span></label>
                     <input type="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-1">
                     @error('password')
                         <p class="text-red-500 text-xs p-1 bg-white">
@@ -35,7 +35,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Confirm Password</label>
+                    <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Confirm Password <span class="text-red-500">*</span></label>
                     <input type="password" name="password_confirmation" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-1">
                     @error('password_confirmation')
                         <p class="text-red-500 text-xs p-1 bg-white">
@@ -58,7 +58,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Role</label>
+                    <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Role <span class="text-red-500">*</span></label>
                     <select name="role_name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-1">
                         <option value="">Select Role</option>
                         @foreach($roles as $role)

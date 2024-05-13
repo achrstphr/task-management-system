@@ -9,8 +9,8 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Name</label>
-                    <input type="text" name="name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3" value={{$errors->has('password_confirmation') ? old('name') : $user->name}}>
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Name <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3" value="{{$errors->has('password_confirmation') ? old('name') : $user->name}}">
                     @error('name')
                         <p class="text-red-500 text-xs p-1 bg-white">
                             {{$message}}
@@ -27,7 +27,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Password</label>
+                    <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Verify Password <span class="text-red-500">*</span></label>
                     <input type="password" name="password_confirmation" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3">
                     @error('password')
                         <p class="text-red-500 text-xs p-1 bg-white">
@@ -45,7 +45,7 @@
                     <select name="department_name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3">
                         <option value="">Select Department</option>
                         @foreach($departments as $department)
-                            <option value="{{ $department->id }}" {{$errors->has('password_confirmation') ? (old('department_name') == $department->id ? 'selected' : '') : ($user->department->department_name == $department->department_name ? 'selected' : '' )}}>{{ $department->department_name }}</option>
+                            <option value="{{ $department->id }}" {{$errors->has('password_confirmation') ? (old('department_name') == $department->id ? 'selected' : '') : (optional($user->department)->department_name == $department->department_name ? 'selected' : '' )}}>{{ $department->department_name }}</option>
                         @endforeach
                     </select>
                     @error('department_name')
@@ -55,7 +55,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Role</label>
+                    <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Role <span class="text-red-500">*</span></label>
                     <select name="role_name" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3">
                         <option value="">Select Role</option>
                         @foreach($roles as $role)
